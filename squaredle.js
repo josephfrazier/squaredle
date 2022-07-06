@@ -41,12 +41,17 @@ function isAlreadyUsed (positions, pos) {
 function nextChains (previousChain, grid) {
   const potentialPositions = validPositions(adjacentPositions(previousChain[previousChain.length - 1]), grid)
   const unusedPositions = potentialPositions.filter(pos => !isAlreadyUsed(previousChain, pos))
-  const result = unusedPositions.map(pos => [...previousChain, pos]).filter(positions => isAllLetters(grid, positions))
+  const result = unusedPositions.map(pos => [...previousChain, pos]).filter(positions => isAllLetters(grid, positions)).filter(chain => isValidWord(chain, grid))
 
   return result
 }
 
 const words = fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => word.length > 3).map(word => word.toUpperCase())
+
+function isValidWord (chain, grid) {
+  const letters = positionstoWord(chain, grid)
+  return words.some(word => word.startsWith(letters))
+}
 
 const printed = {}
 
