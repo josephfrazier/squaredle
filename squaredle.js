@@ -20,7 +20,6 @@ function validPositions (positions, grid) {
 }
 
 function positionsToCells (positions, grid) {
-  // debugger;
   return positions.map(([row, col]) => grid[row][col])
 }
 
