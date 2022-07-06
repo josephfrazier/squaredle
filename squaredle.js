@@ -51,7 +51,7 @@ for (let row = 0; row < grid.length; row++) {
     let chains = [[[row, col]]]
     const targetLength = 8
 
-    for (let i = chains[0].length; i < targetLength; i++) {
+    for (let i = chains[0].length; i <= targetLength; i++) {
       const letters = chains.filter(chain => isAllLetters(grid, chain)).map(chain => positionsToCells(chain, grid).join(''))
       const validWords = letters.filter(word => words.includes(word))
       validWords.forEach(word => {
