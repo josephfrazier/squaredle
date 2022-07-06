@@ -42,16 +42,13 @@ function nextChains (previousChain, grid) {
 
 const words = fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => word.length > 3).map(word => word.toUpperCase())
 
-const chains1 = [[[2, 2], [3, 3]]]
-const chains2 = chains1.flatMap(chain => nextChains(chain, grid))
-const chains3 = chains2.flatMap(chain => nextChains(chain, grid))
-const chains4 = chains3.flatMap(chain => nextChains(chain, grid))
-const chains5 = chains4.flatMap(chain => nextChains(chain, grid))
-const chains6 = chains5.flatMap(chain => nextChains(chain, grid))
-const chains7 = chains6.flatMap(chain => nextChains(chain, grid))
-const chains8 = chains7.flatMap(chain => nextChains(chain, grid))
-const chains9 = chains8.flatMap(chain => nextChains(chain, grid))
+let chains = [[[2, 2], [3, 3]]]
+const targetLength = 10
 
-const letters = chains9.filter(chain => isAllLetters(grid, chain)).map(chain => positionsToCells(chain, grid).join(''))
+for (let i = chains[0].length; i < targetLength; i++) {
+  chains = chains.flatMap(chain => nextChains(chain, grid))
+}
+
+const letters = chains.filter(chain => isAllLetters(grid, chain)).map(chain => positionsToCells(chain, grid).join(''))
 
 console.log(letters.filter(word => words.includes(word)))
