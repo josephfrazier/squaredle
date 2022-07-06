@@ -44,13 +44,19 @@ function nextChains (previousChain, grid) {
 
 const words = fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => word.length > 3).map(word => word.toUpperCase())
 
-let chains = [[[2, 4], [1, 4]]]
-const targetLength = 6
+for (let row = 0; row < grid.length; row++) {
+  for (let col = 0; col < grid[0].length; col++) {
+    let chains = [[[row, col]]]
+    const targetLength = 8
 
-for (let i = chains[0].length; i < targetLength; i++) {
-  chains = chains.flatMap(chain => nextChains(chain, grid))
+    for (let i = chains[0].length; i < targetLength; i++) {
+      const letters = chains.filter(chain => isAllLetters(grid, chain)).map(chain => positionsToCells(chain, grid).join(''))
+      const validWords = letters.filter(word => words.includes(word))
+      if (validWords.length > 0) {
+        console.log(validWords)
+      }
+
+      chains = chains.flatMap(chain => nextChains(chain, grid))
+    }
+  }
 }
-
-const letters = chains.filter(chain => isAllLetters(grid, chain)).map(chain => positionsToCells(chain, grid).join(''))
-
-console.log(letters.filter(word => words.includes(word)))
