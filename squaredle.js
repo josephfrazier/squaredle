@@ -26,6 +26,10 @@ function positionsToCells (positions, grid) {
   return positions.map(([row, col]) => grid[row][col])
 }
 
+function positionstoWord (positions, grid) {
+  return positionsToCells(positions, grid).join('')
+}
+
 function isAllLetters (grid, positions) {
   return !positions.some(([row, col]) => grid[row][col] == null)
 }
@@ -52,7 +56,7 @@ for (let row = 0; row < grid.length; row++) {
     const targetLength = 8
 
     for (let i = chains[0].length; i <= targetLength; i++) {
-      const letters = chains.filter(chain => isAllLetters(grid, chain)).map(chain => positionsToCells(chain, grid).join(''))
+      const letters = chains.filter(chain => isAllLetters(grid, chain)).map(chain => positionstoWord(chain, grid))
       const validWords = letters.filter(word => words.includes(word))
       validWords.forEach(word => {
         if (printed[word]) {
