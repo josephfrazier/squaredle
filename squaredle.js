@@ -1,3 +1,5 @@
+// A solver for https://squaredle.app/
+
 const fs = require('fs')
 
 const grid = `
