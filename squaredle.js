@@ -42,9 +42,8 @@ function nextChains (previousChain, grid) {
 
 const words = fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => word.length > 3).map(word => word.toUpperCase())
 
-const chain1 = [[3, 0], [2, 1]]
-debugger;
-const chains2 = nextChains(chain1, grid)
+const chains1 = [[[2, 2], [3, 3]]]
+const chains2 = chains1.flatMap(chain => nextChains(chain, grid))
 const chains3 = chains2.flatMap(chain => nextChains(chain, grid))
 const chains4 = chains3.flatMap(chain => nextChains(chain, grid))
 const chains5 = chains4.flatMap(chain => nextChains(chain, grid))
