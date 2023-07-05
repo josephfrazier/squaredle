@@ -75,6 +75,29 @@ function regionIsVisited(region) {
   return visitedRegions.some(reg => haveSamePairs(region, reg))
 }
 
+function isSubsequence(subsequence, mainString) {
+  let i = 0;
+  let j = 0;
+
+  while (i < subsequence.length && j < mainString.length) {
+    if (subsequence[i] === mainString[j]) {
+      i++;
+    }
+    j++;
+  }
+
+  const result = i === subsequence.length;
+  if (DEBUG && result) {
+    console.log(`${subsequence} is a subsequence of ${mainString}`)
+  }
+  return result
+}
+
+function isPotentialWord (region) {
+  const subsequence = positionstoWord(region, grid)
+  return words.some(word => isSubsequence(subsequence, word))
+}
+
 function nextRegions (previousRegion, grid) {
   const potentialPositions = validPositions(adjacentPositions(previousRegion), grid)
   const unusedPositions = potentialPositions.filter(pos => !isAlreadyUsed(previousRegion, pos))
@@ -96,7 +119,7 @@ function nextRegions (previousRegion, grid) {
       visitedRegions.push(region)
     }
     return !visited
-  })
+  }).filter(isPotentialWord)
 
   return result
 }
