@@ -1,5 +1,6 @@
 // A solver for https://www.andrewt.net/puzzles/cell-tower
 
+const DEBUG = process.env.DEBUG;
 const fs = require('fs')
 
 const grid = `
@@ -70,13 +71,24 @@ for (let row = 0; row < grid.length; row++) {
 
     for (let i = regions[0].length; i <= targetLength; i++) {
       const letters = regions.filter(region => isAllLetters(grid, region)).map(region => positionstoWord(region, grid))
-      const validWords = letters.filter(word => words.includes(word))
+      const validWords = letters.filter(word => {
+        if (DEBUG) {
+          console.log(`trying ${word}`)
+        }
+
+        return words.includes(word)
+      })
       validWords.forEach(word => {
         if (printed[word]) {
           return;
         }
 
-        console.log(word)
+        if (DEBUG) {
+          console.log(`FOUND ${word}`)
+        } else {
+          console.log(word)
+        }
+
         printed[word] = true
       })
 
