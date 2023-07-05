@@ -1,13 +1,20 @@
-// A solver for https://squaredle.app/
+// A solver for https://www.andrewt.net/puzzles/cell-tower
 
 const fs = require('fs')
 
 const grid = `
-NEVER
-GONNA
-GIVEC
-YOUXI
-UPSYT
+TEDSTUP
+LPIEIDM
+LRIDREI
+ANNJENI
+STOUCMA
+WTMATPL
+ERRIOIN
+REDAGTS
+SOUESOS
+NNDKIOI
+IENGNND
+EDEDGES
 `.trim().split('\n').map(row => row.split('').map(c => c == ' ' ? null : c))
 
 function adjacentPositions ([ row, col ]) {
