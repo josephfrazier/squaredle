@@ -44,8 +44,8 @@ function positionstoWord (positions, grid) {
   return positionsToCells(positions, grid).join('')
 }
 
-function isAllLetters (grid, positions) {
-  return !positions.some(([row, col]) => grid[row][col] == null)
+function isAllLetters (grid, region) {
+  return !region.some(([row, col]) => grid[row][col] == null)
 }
 
 function isAlreadyUsed (positions, pos) {
@@ -55,7 +55,8 @@ function isAlreadyUsed (positions, pos) {
 function nextRegions (previousRegion, grid) {
   const potentialPositions = validPositions(adjacentPositions(previousRegion), grid)
   const unusedPositions = potentialPositions.filter(pos => !isAlreadyUsed(previousRegion, pos))
-  const result = unusedPositions.map(pos => [...previousRegion, pos]).filter(positions => isAllLetters(grid, positions))
+  const potentialRegions = unusedPositions.map(pos => [...previousRegion, pos])
+  const result = potentialRegions.filter(region => isAllLetters(grid, region))
 
   return result
 }
