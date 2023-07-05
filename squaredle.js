@@ -17,8 +17,8 @@ IENGNND
 EDEDGES
 `.trim().split('\n').map(row => row.split('').map(c => c == ' ' ? null : c))
 
-function adjacentPositions (previousChain) {
-  return previousChain.flatMap(([row, col]) => [
+function adjacentPositions (previousRegion) {
+  return previousRegion.flatMap(([row, col]) => [
                         [row - 1, col],
     [row,     col - 1],                 [row,     col + 1],
                         [row + 1, col],
@@ -51,18 +51,18 @@ function isAlreadyUsed (positions, pos) {
   return positions.some(([row, col]) => row == pos[0] && col == pos[1])
 }
 
-function nextChains (previousChain, grid) {
-  const potentialPositions = validPositions(adjacentPositions(previousChain), grid)
-  const unusedPositions = potentialPositions.filter(pos => !isAlreadyUsed(previousChain, pos))
-  const result = unusedPositions.map(pos => [...previousChain, pos]).filter(positions => isAllLetters(grid, positions)).filter(chain => isValidWord(chain, grid))
+function nextRegions (previousRegion, grid) {
+  const potentialPositions = validPositions(adjacentPositions(previousRegion), grid)
+  const unusedPositions = potentialPositions.filter(pos => !isAlreadyUsed(previousRegion, pos))
+  const result = unusedPositions.map(pos => [...previousRegion, pos]).filter(positions => isAllLetters(grid, positions)).filter(region => isValidWord(region, grid))
 
   return result
 }
 
 const words = fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => word.length > 3).map(word => word.toUpperCase())
 
-function isValidWord (chain, grid) {
-  const letters = positionstoWord(chain, grid)
+function isValidWord (region, grid) {
+  const letters = positionstoWord(region, grid)
   return words.some(word => word.startsWith(letters))
 }
 
@@ -70,11 +70,11 @@ const printed = {}
 
 for (let row = 0; row < grid.length; row++) {
   for (let col = 0; col < grid[0].length; col++) {
-    let chains = [[[row, col]]]
+    let regions = [[[row, col]]]
     const targetLength = 8
 
-    for (let i = chains[0].length; i <= targetLength; i++) {
-      const letters = chains.filter(chain => isAllLetters(grid, chain)).map(chain => positionstoWord(chain, grid))
+    for (let i = regions[0].length; i <= targetLength; i++) {
+      const letters = regions.filter(region => isAllLetters(grid, region)).map(region => positionstoWord(region, grid))
       const validWords = letters.filter(word => words.includes(word))
       validWords.forEach(word => {
         if (printed[word]) {
@@ -85,7 +85,7 @@ for (let row = 0; row < grid.length; row++) {
         printed[word] = true
       })
 
-      chains = chains.flatMap(chain => nextChains(chain, grid))
+      regions = regions.flatMap(region => nextRegions(region, grid))
     }
   }
 }
