@@ -18,13 +18,11 @@ EDEDGES
 `.trim().split('\n').map(row => row.split('').map(c => c == ' ' ? null : c))
 
 function adjacentPositions (previousChain) {
-  const [row, col] = previousChain[previousChain.length - 1]
-
-  return [
-    [row - 1, col - 1], [row - 1, col], [row - 1, col + 1],
+  return previousChain.flatMap(([row, col]) => [
+                        [row - 1, col],
     [row,     col - 1],                 [row,     col + 1],
-    [row + 1, col - 1], [row + 1, col], [row + 1, col + 1]
-  ]
+                        [row + 1, col],
+  ])
 }
 
 function validPositions (positions, grid) {
