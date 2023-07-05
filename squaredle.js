@@ -75,6 +75,10 @@ function nextRegions (previousRegion, grid) {
   const potentialPositions = validPositions(adjacentPositions(previousRegion), grid)
   const unusedPositions = potentialPositions.filter(pos => !isAlreadyUsed(previousRegion, pos))
   const potentialRegions = unusedPositions.map(pos => [...previousRegion, pos])
+  // TODO we could (MAYBE, gotta think about it more) reintroduce the prefix constraint removed in commit 2198751da6d4943790dbd1ef1cb888d8ceebab79
+  // TODO if we ensure that we always search starting from a cell that
+  // TODO has no available cells to the left of it (even if below and to the left)
+  // TODO or above (even if above and to the right)
   const result = potentialRegions.filter(region => isAllLetters(grid, region)).filter(region => {
     const visited = regionIsVisited(region)
     if (visited) {
