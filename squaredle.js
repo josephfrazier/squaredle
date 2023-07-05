@@ -18,6 +18,10 @@ IENGNND
 EDEDGES
 `.trim().split('\n').map(row => row.split('').map(c => c == ' ' ? null : c))
 
+const targetLength = 8
+
+const words = fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => 4 <= word.length && word.length <= targetLength).map(word => word.toUpperCase())
+
 function adjacentPositions (previousRegion) {
   return previousRegion.flatMap(([row, col]) => [
                         [row - 1, col],
@@ -97,14 +101,11 @@ function nextRegions (previousRegion, grid) {
   return result
 }
 
-const words = fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => word.length > 3).map(word => word.toUpperCase())
-
 const printed = {}
 
 for (let row = 0; row < grid.length; row++) {
   for (let col = 0; col < grid[0].length; col++) {
     let regions = [[[row, col]]]
-    const targetLength = 8
 
     for (let i = regions[0].length; i <= targetLength; i++) {
       const letters = regions.filter(region => isAllLetters(grid, region)).map(region => positionstoWord(region, grid))
