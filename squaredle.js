@@ -30,7 +30,13 @@ function validPositions (positions, grid) {
 }
 
 function positionsToCells (positions, grid) {
-  return positions.map(([row, col]) => grid[row][col])
+  const sortedPositions = positions.toSorted(function (pos1, pos2) {
+    if (pos1[0] === pos2[0]) {
+      return pos1[1] - pos2[1]; // Sort by column if rows are equal
+    }
+    return pos1[0] - pos2[0]; // Sort by row
+  })
+  return sortedPositions.map(([row, col]) => grid[row][col])
 }
 
 function positionstoWord (positions, grid) {
