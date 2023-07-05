@@ -17,7 +17,9 @@ IENGNND
 EDEDGES
 `.trim().split('\n').map(row => row.split('').map(c => c == ' ' ? null : c))
 
-function adjacentPositions ([ row, col ]) {
+function adjacentPositions (previousChain) {
+  const [row, col] = previousChain[previousChain.length - 1]
+
   return [
     [row - 1, col - 1], [row - 1, col], [row - 1, col + 1],
     [row,     col - 1],                 [row,     col + 1],
@@ -52,7 +54,7 @@ function isAlreadyUsed (positions, pos) {
 }
 
 function nextChains (previousChain, grid) {
-  const potentialPositions = validPositions(adjacentPositions(previousChain[previousChain.length - 1]), grid)
+  const potentialPositions = validPositions(adjacentPositions(previousChain), grid)
   const unusedPositions = potentialPositions.filter(pos => !isAlreadyUsed(previousChain, pos))
   const result = unusedPositions.map(pos => [...previousChain, pos]).filter(positions => isAllLetters(grid, positions)).filter(chain => isValidWord(chain, grid))
 
