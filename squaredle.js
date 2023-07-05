@@ -52,11 +52,43 @@ function isAlreadyUsed (positions, pos) {
   return positions.some(([row, col]) => row == pos[0] && col == pos[1])
 }
 
+const visitedRegions = []
+
+// TODO find a way to optimize this, maybe with sorting of pairs within regions and subsequent sorting of regions themselves
+// TODO or maybe with better data structures such as a Set of Sets of [row, col] pairs
+function haveSamePairs(list1, list2) {
+  if (list1.length !== list2.length) {
+    return false; // Different lengths, cannot have the same set of pairs
+  }
+
+  var sortedList1 = JSON.stringify(list1.slice().sort());
+  var sortedList2 = JSON.stringify(list2.slice().sort());
+
+  return sortedList1 === sortedList2;
+}
+
+function regionIsVisited(region) {
+  return visitedRegions.some(reg => haveSamePairs(region, reg))
+}
+
 function nextRegions (previousRegion, grid) {
   const potentialPositions = validPositions(adjacentPositions(previousRegion), grid)
   const unusedPositions = potentialPositions.filter(pos => !isAlreadyUsed(previousRegion, pos))
   const potentialRegions = unusedPositions.map(pos => [...previousRegion, pos])
-  const result = potentialRegions.filter(region => isAllLetters(grid, region))
+  const result = potentialRegions.filter(region => isAllLetters(grid, region)).filter(region => {
+    const visited = regionIsVisited(region)
+    if (visited) {
+      if (DEBUG) {
+        console.log('region is visited, omitting', region)
+      }
+    } else {
+      if (DEBUG) {
+        console.log('visiting region', region)
+      }
+      visitedRegions.push(region)
+    }
+    return !visited
+  })
 
   return result
 }
