@@ -54,17 +54,12 @@ function isAlreadyUsed (positions, pos) {
 function nextRegions (previousRegion, grid) {
   const potentialPositions = validPositions(adjacentPositions(previousRegion), grid)
   const unusedPositions = potentialPositions.filter(pos => !isAlreadyUsed(previousRegion, pos))
-  const result = unusedPositions.map(pos => [...previousRegion, pos]).filter(positions => isAllLetters(grid, positions)).filter(region => isValidWord(region, grid))
+  const result = unusedPositions.map(pos => [...previousRegion, pos]).filter(positions => isAllLetters(grid, positions))
 
   return result
 }
 
 const words = fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => word.length > 3).map(word => word.toUpperCase())
-
-function isValidWord (region, grid) {
-  const letters = positionstoWord(region, grid)
-  return words.some(word => word.startsWith(letters))
-}
 
 const printed = {}
 
