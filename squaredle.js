@@ -48,8 +48,13 @@ function positionstoWord (positions, grid) {
   return positionsToCells(positions, grid).join('')
 }
 
+function isLetter (grid, [row, col]) {
+  return grid[row][col] != null
+}
+
 function isAllLetters (grid, region) {
-  return !region.some(([row, col]) => grid[row][col] == null)
+  const result = region.every(([row, col]) => isLetter(grid, [row, col]))
+  return result
 }
 
 function isAlreadyUsed (positions, pos) {
