@@ -147,11 +147,7 @@ for (let row = 0; row < grid.length; row++) {
           return;
         }
 
-        if (DEBUG) {
-          console.log(`FOUND ${word}`)
-        } else {
-          console.log(word)
-        }
+        DEBUG && console.log(`FOUND ${word}`) || console.log(word)
 
         printed[word] = true
       })
