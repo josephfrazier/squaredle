@@ -44,7 +44,7 @@ function regionToCells (region, grid) {
   return sortedRegion.map(([row, col]) => grid[row][col])
 }
 
-function regiontoWord (region, grid) {
+function regionToWord (region, grid) {
   return regionToCells(region, grid).join('')
 }
 
@@ -98,7 +98,7 @@ function isSubsequence(subsequence, mainString) {
 }
 
 function isPotentialWord (region) {
-  const subsequence = regiontoWord(region, grid)
+  const subsequence = regionToWord(region, grid)
   return words.some(word => isSubsequence(subsequence, word))
 }
 
@@ -139,7 +139,7 @@ for (let row = 0; row < grid.length; row++) {
     let regions = [[[row, col]]]
 
     for (let i = regions[0].length; i <= targetLength; i++) {
-      const letters = regions.filter(region => isAllLetters(grid, region)).map(region => regiontoWord(region, grid))
+      const letters = regions.filter(region => isAllLetters(grid, region)).map(region => regionToWord(region, grid))
       const validWords = letters.filter(word => {
         return words.includes(word)
       })
