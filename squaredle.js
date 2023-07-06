@@ -34,18 +34,18 @@ function validPositions (positions, grid) {
   return positions.filter(([row, col]) => 0 <= row && row < grid.length && 0 <= col && col < grid[0].length)
 }
 
-function positionsToCells (positions, grid) {
-  const sortedPositions = positions.toSorted(function (pos1, pos2) {
-    if (pos1[0] === pos2[0]) {
-      return pos1[1] - pos2[1]; // Sort by column if rows are equal
+function regionToCells (region, grid) {
+  const sortedRegion = region.toSorted(function (position1, position2) {
+    if (position1[0] === position2[0]) {
+      return position1[1] - position2[1]; // Sort by column if rows are equal
     }
-    return pos1[0] - pos2[0]; // Sort by row
+    return position1[0] - position2[0]; // Sort by row
   })
-  return sortedPositions.map(([row, col]) => grid[row][col])
+  return sortedRegion.map(([row, col]) => grid[row][col])
 }
 
-function positionstoWord (positions, grid) {
-  return positionsToCells(positions, grid).join('')
+function regiontoWord (region, grid) {
+  return regionToCells(region, grid).join('')
 }
 
 function isLetter (grid, [row, col]) {
@@ -57,8 +57,8 @@ function isAllLetters (grid, region) {
   return result
 }
 
-function isAlreadyUsed (positions, pos) {
-  return positions.some(([row, col]) => row == pos[0] && col == pos[1])
+function isAlreadyUsed (region, position) {
+  return region.some(([row, col]) => row == position[0] && col == position[1])
 }
 
 const visitedRegions = []
@@ -98,7 +98,7 @@ function isSubsequence(subsequence, mainString) {
 }
 
 function isPotentialWord (region) {
-  const subsequence = positionstoWord(region, grid)
+  const subsequence = regiontoWord(region, grid)
   return words.some(word => isSubsequence(subsequence, word))
 }
 
@@ -106,8 +106,8 @@ function nextRegions (previousRegion, grid) {
   DEBUG && console.time('nextRegions')
 
   const potentialPositions = validPositions(adjacentPositions(previousRegion), grid)
-  const unusedPositions = potentialPositions.filter(pos => !isAlreadyUsed(previousRegion, pos))
-  const potentialRegions = unusedPositions.map(pos => [...previousRegion, pos])
+  const unusedPositions = potentialPositions.filter(position => !isAlreadyUsed(previousRegion, position))
+  const potentialRegions = unusedPositions.map(position => [...previousRegion, position])
 
   DEBUG && console.time('allLetterRegions')
   const allLetterRegions = potentialRegions.filter(region => isAllLetters(grid, region))
@@ -139,7 +139,7 @@ for (let row = 0; row < grid.length; row++) {
     let regions = [[[row, col]]]
 
     for (let i = regions[0].length; i <= targetLength; i++) {
-      const letters = regions.filter(region => isAllLetters(grid, region)).map(region => positionstoWord(region, grid))
+      const letters = regions.filter(region => isAllLetters(grid, region)).map(region => regiontoWord(region, grid))
       const validWords = letters.filter(word => {
         return words.includes(word)
       })
