@@ -101,10 +101,17 @@ function isPotentialWord (region) {
 }
 
 function nextRegions (previousRegion, grid) {
+  DEBUG && console.time('nextRegions')
+
   const potentialPositions = validPositions(adjacentPositions(previousRegion), grid)
   const unusedPositions = potentialPositions.filter(pos => !isAlreadyUsed(previousRegion, pos))
   const potentialRegions = unusedPositions.map(pos => [...previousRegion, pos])
+
+  DEBUG && console.time('allLetterRegions')
   const allLetterRegions = potentialRegions.filter(region => isAllLetters(grid, region))
+  DEBUG && console.timeEnd('allLetterRegions')
+
+  DEBUG && console.time('unvisitedRegions')
   const unvisitedRegions = allLetterRegions.filter(region => {
     const visited = regionIsVisited(region)
     if (!visited) {
@@ -112,7 +119,13 @@ function nextRegions (previousRegion, grid) {
     }
     return !visited
   })
+  DEBUG && console.timeEnd('unvisitedRegions')
+
+  DEBUG && console.time('isPotentialWord')
   const result = unvisitedRegions.filter(isPotentialWord)
+  DEBUG && console.timeEnd('isPotentialWord')
+
+  DEBUG && console.timeEnd('nextRegions')
 
   return result
 }
