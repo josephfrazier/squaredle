@@ -63,8 +63,6 @@ function isAlreadyUsed (positions, pos) {
 
 const visitedRegions = []
 
-// TODO find a way to optimize this, maybe with sorting of pairs within regions and subsequent sorting of regions themselves
-// TODO or maybe with better data structures such as a Set of Sets of [row, col] pairs
 function haveSamePairs(list1, list2) {
   if (list1.length !== list2.length) {
     return false; // Different lengths, cannot have the same set of pairs
@@ -76,6 +74,9 @@ function haveSamePairs(list1, list2) {
   return sortedList1 === sortedList2;
 }
 
+// TODO find a way to optimize this, maybe with sorting of pairs within regions
+// TODO and subsequent sorting of regions themselves
+// TODO or maybe with better data structures such as a Set of Sets of [row, col] pairs
 function regionIsVisited(region) {
   return visitedRegions.some(reg => haveSamePairs(region, reg))
 }
