@@ -99,13 +99,15 @@ function nextRegions (previousRegion, grid) {
   const potentialPositions = validPositions(adjacentPositions(previousRegion), grid)
   const unusedPositions = potentialPositions.filter(pos => !isAlreadyUsed(previousRegion, pos))
   const potentialRegions = unusedPositions.map(pos => [...previousRegion, pos])
-  const result = potentialRegions.filter(region => isAllLetters(grid, region)).filter(region => {
+  const allLetterRegions = potentialRegions.filter(region => isAllLetters(grid, region))
+  const unvisitedRegions = allLetterRegions.filter(region => {
     const visited = regionIsVisited(region)
     if (!visited) {
       visitedRegions.push(region)
     }
     return !visited
-  }).filter(isPotentialWord)
+  })
+  const result = unvisitedRegions.filter(isPotentialWord)
 
   return result
 }
