@@ -77,6 +77,7 @@ function haveSamePairs(list1, list2) {
 // TODO find a way to optimize this, maybe with sorting of pairs within regions
 // TODO and subsequent sorting of regions themselves
 // TODO or maybe with better data structures such as a Set of Sets of [row, col] pairs
+// TODO See https://www.npmjs.com/package/@thi.ng/associative or https://www.npmjs.com/search?q=set+equality
 function regionIsVisited(region) {
   return visitedRegions.some(reg => haveSamePairs(region, reg))
 }
