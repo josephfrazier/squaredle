@@ -87,9 +87,6 @@ function isSubsequence(subsequence, mainString) {
   }
 
   const result = i === subsequence.length;
-  if (DEBUG && result) {
-    console.log(`${subsequence} is a subsequence of ${mainString}`)
-  }
   return result
 }
 
@@ -104,14 +101,7 @@ function nextRegions (previousRegion, grid) {
   const potentialRegions = unusedPositions.map(pos => [...previousRegion, pos])
   const result = potentialRegions.filter(region => isAllLetters(grid, region)).filter(region => {
     const visited = regionIsVisited(region)
-    if (visited) {
-      if (DEBUG) {
-        console.log('region is visited, omitting', region)
-      }
-    } else {
-      if (DEBUG) {
-        console.log('visiting region', region)
-      }
+    if (!visited) {
       visitedRegions.push(region)
     }
     return !visited
@@ -129,10 +119,6 @@ for (let row = 0; row < grid.length; row++) {
     for (let i = regions[0].length; i <= targetLength; i++) {
       const letters = regions.filter(region => isAllLetters(grid, region)).map(region => positionstoWord(region, grid))
       const validWords = letters.filter(word => {
-        if (DEBUG) {
-          console.log(`trying ${word}`)
-        }
-
         return words.includes(word)
       })
       validWords.forEach(word => {
