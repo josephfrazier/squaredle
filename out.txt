@@ -1,10 +1,4 @@
-$ time node squaredle.js > out.txt
-real	8m33.731s
-user	8m30.786s
-sys	0m2.428s
-
-The command above generated the output below:
-
+josephfrazier@Josephs-MacBook-Pro:~/workspace/squaredle$ time node squaredle.js
 TELL
 ESPIER
 EPEIRID
@@ -140,3 +134,8 @@ INDE
 IDES
 ENDED
 EDGE
+
+real	8m32.413s
+user	8m28.959s
+sys	0m2.922s
+josephfrazier@Josephs-MacBook-Pro:~/workspace/squaredle$
