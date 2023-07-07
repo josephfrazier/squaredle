@@ -3,6 +3,8 @@
 const DEBUG = process.env.DEBUG;
 const fs = require('fs')
 
+const sorted = require('sorted-array-functions')
+
 const grid = `
 TEDSTUP
 LPIEIDM
@@ -143,7 +145,7 @@ for (let row = 0; row < grid.length; row++) {
     for (let i = regions[0].length; i <= targetLength; i++) {
       const letters = regions.filter(region => isAllLetters(grid, region)).map(region => regionToWord(region, grid))
       const validWords = letters.filter(word => {
-        return words.includes(word)
+        return sorted.has(words, word)
       })
       validWords.forEach(word => {
         if (printed[word]) {
