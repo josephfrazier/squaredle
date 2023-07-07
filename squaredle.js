@@ -21,7 +21,7 @@ EDEDGES
 const minLength = 4
 const maxLength = 8
 
-const words = new Set(fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => minLength <= word.length && word.length <= maxLength).map(word => word.toUpperCase()).toSorted())
+const words = new Set(fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => minLength <= word.length && word.length <= maxLength).map(word => word.toUpperCase()))
 // const words = fs.readFileSync('./1000-most-common-words.txt', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => minLength <= word.length && word.length <= maxLength).map(word => word.toUpperCase())
 // const words = fs.readFileSync('./google-10000-english.txt', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => minLength <= word.length && word.length <= maxLength).map(word => word.toUpperCase())
 
