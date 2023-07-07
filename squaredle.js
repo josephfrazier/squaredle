@@ -22,7 +22,7 @@ EDEDGES
 
 const targetLength = 8
 
-const words = fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => 4 <= word.length && word.length <= targetLength).map(word => word.toUpperCase()).toSorted()
+const words = new Set(fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => 4 <= word.length && word.length <= targetLength).map(word => word.toUpperCase()).toSorted())
 // const words = fs.readFileSync('./1000-most-common-words.txt', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => 4 <= word.length && word.length <= targetLength).map(word => word.toUpperCase())
 // const words = fs.readFileSync('./google-10000-english.txt', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => 4 <= word.length && word.length <= targetLength).map(word => word.toUpperCase())
 
@@ -104,9 +104,18 @@ function isSubsequence(subsequence, mainString) {
   return result
 }
 
+function some(set, predicate) {
+  for (const item of set)
+    if (predicate(item))
+      return true;
+
+  return false;
+}
+
 function isPotentialWord (region) {
   const subsequence = regionToWord(region, grid)
-  return words.some(word => isSubsequence(subsequence, word))
+  return some(words, word => isSubsequence(subsequence, word))
+  // return words.some(word => isSubsequence(subsequence, word))
 }
 
 function nextRegions (previousRegion, grid) {
@@ -149,7 +158,8 @@ for (let row = 0; row < grid.length; row++) {
     for (let i = regions[0].length; i <= targetLength; i++) {
       const letters = regions.filter(region => isAllLetters(grid, region)).map(region => regionToWord(region, grid))
       const validWords = letters.filter(word => {
-        return sorted.has(words, word)
+        return words.has(word)
+        // return sorted.has(words, word)
       })
       validWords.forEach(word => {
         if (printed[word]) {
