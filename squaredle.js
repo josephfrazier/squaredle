@@ -125,16 +125,16 @@ for (let row = 0; row < grid.length; row++) {
     let regions = [[[row, col]]]
 
     for (let i = regions[0].length; i <= maxLength; i++) {
-      const letters = regions.filter(region => isAllLetters(grid, region)).map(region => regionToWord(region, grid))
-      const validWords = letters.filter(word => {
+      const regionWordPairs = regions.filter(region => isAllLetters(grid, region)).map(region => [region, regionToWord(region, grid)])
+      const validPairs = regionWordPairs.filter(([region, word]) => {
         return words.has(word)
       })
-      validWords.forEach(word => {
+      validPairs.forEach(([region, word]) => {
         if (printed[word]) {
           return;
         }
 
-        DEBUG && console.log(`FOUND ${word}`) || console.log(word)
+        DEBUG && console.log(`FOUND ${word} ${region}`) || console.log(word, region)
 
         printed[word] = true
       })
