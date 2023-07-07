@@ -70,15 +70,18 @@ function isAlreadyUsed (region, position) {
 
 const visitedRegions = []
 
-function haveSamePairs(list1, list2) {
-  if (list1.length !== list2.length) {
+function haveSamePairs(sortedRegion1, sortedRegion2) {
+  if (sortedRegion1.length !== sortedRegion2.length) {
     return false; // Different lengths, cannot have the same set of pairs
   }
 
-  var sortedList1 = JSON.stringify(list1.slice().sort());
-  var sortedList2 = JSON.stringify(list2.slice().sort());
+  for (let index = 0; index < sortedRegion1.length; index += 1) {
+    if (!(sortedRegion1[index][0] === sortedRegion2[index][0] && sortedRegion1[index][1] === sortedRegion2[index][1])) {
+      return false
+    }
+  }
 
-  return sortedList1 === sortedList2;
+  return true
 }
 
 // TODO find a way to optimize this, maybe with sorting of pairs within regions
@@ -124,7 +127,7 @@ function nextRegions (previousRegion, grid) {
   const unvisitedRegions = allLetterRegions.filter(region => {
     const visited = regionIsVisited(region)
     if (!visited) {
-      visitedRegions.push(region)
+      visitedRegions.push(sortedRegion(region))
     }
     return !visited
   })
