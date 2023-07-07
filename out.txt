@@ -1,4 +1,9 @@
-josephfrazier@Josephs-MacBook-Pro:~/workspace/squaredle$ time node squaredle.js
+josephfrazier@Josephs-MacBook-Pro:~/workspace/squaredle$ time node squaredle.js > out.txt
+
+real    0m43.878s
+user    0m43.694s
+sys     0m0.194s
+
 TELL
 ESPIER
 EPEIRID
@@ -134,8 +139,3 @@ INDE
 IDES
 ENDED
 EDGE
-
-real	8m32.413s
-user	8m28.959s
-sys	0m2.922s
-josephfrazier@Josephs-MacBook-Pro:~/workspace/squaredle$
