@@ -20,11 +20,12 @@ IENGNND
 EDEDGES
 `.trim().split('\n').map(row => row.split('').map(c => c == ' ' ? null : c))
 
-const targetLength = 8
+const minLength = 4
+const maxLength = 8
 
-const words = fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => 4 <= word.length && word.length <= targetLength).map(word => word.toUpperCase()).toSorted()
-// const words = fs.readFileSync('./1000-most-common-words.txt', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => 4 <= word.length && word.length <= targetLength).map(word => word.toUpperCase())
-// const words = fs.readFileSync('./google-10000-english.txt', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => 4 <= word.length && word.length <= targetLength).map(word => word.toUpperCase())
+const words = fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => minLength <= word.length && word.length <= maxLength).map(word => word.toUpperCase()).toSorted()
+// const words = fs.readFileSync('./1000-most-common-words.txt', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => minLength <= word.length && word.length <= maxLength).map(word => word.toUpperCase())
+// const words = fs.readFileSync('./google-10000-english.txt', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => minLength <= word.length && word.length <= maxLength).map(word => word.toUpperCase())
 
 function adjacentPositions (previousRegion) {
   return previousRegion.flatMap(([row, col]) => [
@@ -147,7 +148,7 @@ for (let row = 0; row < grid.length; row++) {
   for (let col = 0; col < grid[0].length; col++) {
     let regions = [[[row, col]]]
 
-    for (let i = regions[0].length; i <= targetLength; i++) {
+    for (let i = regions[0].length; i <= maxLength; i++) {
       const letters = regions.filter(region => isAllLetters(grid, region)).map(region => regionToWord(region, grid))
       const validWords = letters.filter(word => {
         return sorted.has(words, word)
