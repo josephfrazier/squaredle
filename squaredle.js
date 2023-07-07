@@ -38,14 +38,17 @@ function validPositions (positions, grid) {
   return positions.filter(([row, col]) => 0 <= row && row < grid.length && 0 <= col && col < grid[0].length)
 }
 
-function regionToCells (region, grid) {
-  const sortedRegion = region.toSorted(function (position1, position2) {
+function sortedRegion (region) {
+  return region.toSorted(function (position1, position2) {
     if (position1[0] === position2[0]) {
       return position1[1] - position2[1]; // Sort by column if rows are equal
     }
     return position1[0] - position2[0]; // Sort by row
   })
-  return sortedRegion.map(([row, col]) => grid[row][col])
+}
+
+function regionToCells (region, grid) {
+  return sortedRegion(region).map(([row, col]) => grid[row][col])
 }
 
 function regionToWord (region, grid) {
