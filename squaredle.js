@@ -68,7 +68,7 @@ function isAlreadyUsed (region, position) {
   return region.some(([row, col]) => row == position[0] && col == position[1])
 }
 
-const visitedRegions = []
+const visitedRegions = new Set()
 
 function haveSamePairs(list1, list2) {
   if (list1.length !== list2.length) {
@@ -85,8 +85,8 @@ function haveSamePairs(list1, list2) {
 // TODO and subsequent sorting of regions themselves
 // TODO or maybe with better data structures such as a Set of Sets of [row, col] pairs
 // TODO See https://www.npmjs.com/package/@thi.ng/associative or https://www.npmjs.com/search?q=set+equality
-function regionIsVisited(region) {
-  return visitedRegions.some(reg => haveSamePairs(region, reg))
+function regionIsVisited(regionString) {
+  return visitedRegions.has(regionString)
 }
 
 function isSubsequence(subsequence, mainString) {
@@ -122,9 +122,10 @@ function nextRegions (previousRegion, grid) {
 
   DEBUG && console.time('unvisitedRegions')
   const unvisitedRegions = allLetterRegions.filter(region => {
-    const visited = regionIsVisited(region)
+    const regionString = JSON.stringify(region.toSorted())
+    const visited = regionIsVisited(regionString)
     if (!visited) {
-      visitedRegions.push(region)
+      visitedRegions.add(regionString)
     }
     return !visited
   })
