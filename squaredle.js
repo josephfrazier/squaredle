@@ -20,7 +20,9 @@ EDEDGES
 
 const targetLength = 8
 
-const words = fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => 4 <= word.length && word.length <= targetLength).map(word => word.toUpperCase())
+// const words = fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => 4 <= word.length && word.length <= targetLength).map(word => word.toUpperCase())
+// const words = fs.readFileSync('./1000-most-common-words.txt', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => 4 <= word.length && word.length <= targetLength).map(word => word.toUpperCase())
+const words = fs.readFileSync('./google-10000-english.txt', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => 4 <= word.length && word.length <= targetLength).map(word => word.toUpperCase())
 
 function adjacentPositions (previousRegion) {
   return previousRegion.flatMap(([row, col]) => [
