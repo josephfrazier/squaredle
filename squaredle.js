@@ -90,26 +90,6 @@ function regionIsVisited(regionString) {
   return visitedRegions.has(regionString)
 }
 
-function isSubsequence(subsequence, mainString) {
-  let i = 0;
-  let j = 0;
-
-  while (i < subsequence.length && j < mainString.length) {
-    if (subsequence[i] === mainString[j]) {
-      i++;
-    }
-    j++;
-  }
-
-  const result = i === subsequence.length;
-  return result
-}
-
-function isPotentialWord (region) {
-  const subsequence = regionToWord(region, grid)
-  return words.some(word => isSubsequence(subsequence, word))
-}
-
 function nextRegions (previousRegion, grid) {
   DEBUG && console.time('nextRegions')
 
@@ -132,9 +112,7 @@ function nextRegions (previousRegion, grid) {
   })
   DEBUG && console.timeEnd('unvisitedRegions')
 
-  DEBUG && console.time('isPotentialWord')
-  const result = unvisitedRegions.filter(isPotentialWord)
-  DEBUG && console.timeEnd('isPotentialWord')
+  const result = unvisitedRegions
 
   DEBUG && console.timeEnd('nextRegions')
   DEBUG && console.log('')
