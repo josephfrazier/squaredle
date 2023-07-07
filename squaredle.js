@@ -3,8 +3,6 @@
 const DEBUG = process.env.DEBUG;
 const fs = require('fs')
 
-const sorted = require('sorted-array-functions')
-
 const grid = `
 TEDSTUP
 LPIEIDM
@@ -23,7 +21,7 @@ EDEDGES
 const minLength = 4
 const maxLength = 8
 
-const words = fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => minLength <= word.length && word.length <= maxLength).map(word => word.toUpperCase()).toSorted()
+const words = new Set(fs.readFileSync('/usr/share/dict/words', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => minLength <= word.length && word.length <= maxLength).map(word => word.toUpperCase()).toSorted())
 // const words = fs.readFileSync('./1000-most-common-words.txt', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => minLength <= word.length && word.length <= maxLength).map(word => word.toUpperCase())
 // const words = fs.readFileSync('./google-10000-english.txt', 'utf8').split('\n').map(word => word.replace("'", '')).filter(word => minLength <= word.length && word.length <= maxLength).map(word => word.toUpperCase())
 
@@ -129,7 +127,7 @@ for (let row = 0; row < grid.length; row++) {
     for (let i = regions[0].length; i <= maxLength; i++) {
       const letters = regions.filter(region => isAllLetters(grid, region)).map(region => regionToWord(region, grid))
       const validWords = letters.filter(word => {
-        return sorted.has(words, word)
+        return words.has(word)
       })
       validWords.forEach(word => {
         if (printed[word]) {
