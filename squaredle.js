@@ -135,6 +135,7 @@ function nextRegions (previousRegion, grid) {
   DEBUG && console.timeEnd('isPotentialWord')
 
   DEBUG && console.timeEnd('nextRegions')
+  DEBUG && console.log('')
 
   return result
 }
